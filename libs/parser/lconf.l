@@ -69,7 +69,7 @@ static void alloc_string(const char *str, int size)
 %}
 
 ws	[ \n\t]
-n	[A-Za-z0-9_]
+n	[A-Za-z0-9_-]
 
 %%
 	int str = 0;
@@ -255,6 +255,17 @@ static void zconf_endhelp(void)
 	BEGIN(INITIAL);
 }
 
+bool zconf_fexists(const char *name)
+{
+	const char *file_name = sym_expand_string_value(name);
+	FILE* f = zconf_fopen(file_name);
+	free((void*)file_name);
+	if (f) {
+		fclose(f);
+		return true;
+	}
+	return false;
+}
 
 /*
  * Try to open specified file with following names:

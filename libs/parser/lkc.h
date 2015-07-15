@@ -74,6 +74,7 @@ extern int zconfdebug;
 int zconfparse(void);
 void zconfdump(FILE *out);
 void zconf_starthelp(void);
+bool zconf_fexists(const char *name);
 FILE *zconf_fopen(const char *name);
 void zconf_initscan(const char *name);
 void zconf_nextfile(const char *name);
