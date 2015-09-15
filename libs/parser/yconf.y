@@ -385,6 +385,27 @@ source_stmt: T_SOURCE prompt T_EOL
 	zconf_nextfile($2);
 } | T_MINUS_SOURCE prompt T_EOL
 {
+	if (strstr($2,"*") != NULL) {
+		/* The path contains a wildcard */
+		char buffer[1024];
+		uint msize = sizeof(buffer) -1;
+		buffer[msize] = 0;
+		char *command = "ls";
+		snprintf(buffer, msize, "%s %s", command, $2);
+		FILE *fp = popen(buffer,"r");
+		if (fp != NULL) {
+			while(fgets(buffer, msize, fp) != NULL) {
+				uint size = strlen(buffer);
+				if (size) {
+					/* Trim newline  */
+					buffer[size - 1] = 0;
+					if (zconf_fexists(buffer)) {
+						zconf_nextfile(buffer);
+					}
+				}
+			}
+		}
+	}
 	if (zconf_fexists($2))
 		zconf_nextfile($2);
 };
