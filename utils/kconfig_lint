@@ -473,9 +473,9 @@ sub build_and_parse_kconfig_tree {
         }
 
         #handle config
-        elsif ( $line =~ /^\s*config/ ) {
-            $line =~ /^\s*config\s+([^"\s]+)\s*(?>#.*)?$/;
-            my $symbol = $1;
+        elsif ( $line =~ /^\s*(menuconfig|config)/ ) {
+            $line =~ /^\s*(menuconfig|config)\s+([^"\s]+)\s*(?>#.*)?$/;
+            my $symbol = $2;
             $inside_config = $symbol;
             if ($inside_choice) {
                 $configs_inside_choice++;
@@ -1037,8 +1037,8 @@ sub handle_prompt {
 
             #display an error if there's a prompt at the top menu level
             if ( !defined @$menu_array_ref[0] ) {
-                show_error( "Symbol  '$inside_config' with prompt '$prompt' appears outside of a menu"
-                      . " at $filename:$line_no." );
+            #show_error( "Symbol  '$inside_config' with prompt '$prompt' appears outside of a menu"
+            #          . " at $filename:$line_no." );
             }
 
             my $sym_num = $symbols{$inside_config}{count};
