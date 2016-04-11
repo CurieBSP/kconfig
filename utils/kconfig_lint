@@ -635,7 +635,7 @@ sub build_and_parse_kconfig_tree {
         }
 
         # source <prompt>
-        elsif ( $line =~ /^\s*source\s+"?([^"\s]+)"?\s*(?>#.*)?$/ ) {
+        elsif ( $line =~ /^\s*(?:-source|source)\s+"?([^"\s]+)"?\s*(?>#.*)?$/ ) {
             my @newfile = load_kconfig_file( $1, $filename, $line_no, 0, $filename, $line_no );
             unshift( @config_to_parse, @newfile );
             $parseline[0]{text} = "# '$line'\n";
