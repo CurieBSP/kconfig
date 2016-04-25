@@ -225,11 +225,11 @@ sub check_for_ifdef {
     my @collected_is_enabled;
     if ($dont_use_git_grep) {
         @collected_is_enabled =
-            `grep -Irn -- "[[:space:]]IS_ENABLED[[:space:]]*(.*)" | grep -v '$exclude_dirs_and_files' | grep -v "kconfig.h"`;
+            `grep -Irn -- "[[:space:]]IS_ENABLED[[:space:]]*(.*)" . | grep -v '$exclude_dirs_and_files' | grep -v "kconfig.h"`;
     }
     else {
         @collected_is_enabled =
-            `git grep -In -- "[[:space:]]IS_ENABLED[[:space:]]*(.*)" | grep -v '$exclude_dirs_and_files' | grep -v "kconfig.h"`;
+            `git grep -In -- "[[:space:]]IS_ENABLED[[:space:]]*(.*)" . | grep -v '$exclude_dirs_and_files' | grep -v "kconfig.h"`;
     }
 
     while ( my $line = shift @collected_is_enabled ) {
@@ -378,10 +378,10 @@ sub collect_used_symbols {
     # find all references to CONFIG_ statements in the tree
 
     if ($dont_use_git_grep) {
-        @collected_symbols = `grep -Irn -- "CONFIG_" | grep -v '$exclude_dirs_and_files'`;
+        @collected_symbols = `grep -Irn -- "CONFIG_" . | grep -v '$exclude_dirs_and_files'`;
     }
     else {
-        @collected_symbols = `git grep -In -- "CONFIG_" | grep -v '$exclude_dirs_and_files'`;
+        @collected_symbols = `git grep -In -- "CONFIG_" . | grep -v '$exclude_dirs_and_files'`;
     }
 
     my @used_symbols = @collected_symbols;
